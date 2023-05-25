@@ -1,8 +1,3 @@
-<?php
-session_start();
-//  echo"<h2>welcome".$_SESSION['oid']."</h2>";
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +19,7 @@ session_start();
             <!-- Navbar Brand-->
             <a class="navbar-brand ps-3" href="index.html">UBISCHOOL</a>
             <!-- Sidebar Toggle-->
-            <h4 class="text-white">Dashboard</h4>
+            <h4 class="text-white">Change Password</h4>
             
             <!-- Navbar-->
             <div style="margin-left:800px;">
@@ -114,31 +109,27 @@ session_start();
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-
-
-
                 <main>
-                    <div class="container-fluid px-4">
+                    <div class="container-fluid px-4 ">
+                        <div>
+                        <input class="my-4 mx-5 "  id="curpassword" type="password" placeholder="Current Password">
+                        </div>
+
+                        <div>
+                        <input class="my-4 mx-5"  id="newpassword" type="password" placeholder="New Password">
+                        </div> 
+
+                        <div>
+                        <input class="my-4 mx-5"  id="confpassword" type="password" placeholder="Confirm Password">
+                        </div> 
+
+                        <div>
+                            <button type="button" id="save" class="btn btn-warning mx-5">Save</button>
+                            <button type="button" class="btn btn-secondary mx-4">Cancel</button>
+
+                        </div>
                         
-                        <div class="row">
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary  mt-5 text-white mb-4">
-                                    <div class="card-body mt-3">No. of staff</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between ">
-                                        <div class="small text-white">47</div>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card bg-secondary text-white mt-5 mb-4">
-                                    <div class="card-body mt-3">No. of student</div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between">
-                                        <div class="small text-white">5</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        
                                
                             
                         </div>
@@ -157,6 +148,23 @@ session_start();
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <!-- <script src="js/datatables-simple-demo.js"></script> -->
    
+
+        <script>
+
+    var password = $("#curpassword").val();
+    var newpassword= $("#newpassword").val();
+    var confpassword = $("confpassword").val();
+    var save = $("#save").val();
+    $.ajax({
+    url:"backend.php",
+    type:"POST",
+    data:{password:password,newpassword:newpassword,confpassword:confpassword,save:save},
+    success:function(data){
+        console.log(data);
+    }
+    });
+
+        </script>
 
 
 </body>

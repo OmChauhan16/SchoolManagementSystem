@@ -1,7 +1,6 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+<!-- <?php
+// session_start();
+?> -->
 
 <!DOCTYPE html>
 <html>
@@ -11,13 +10,17 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-    <style>
+    <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> -->
+    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script> -->
+    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+	<style>
 		body,
 		html {
 			margin: 0;
 			padding: 0;
-			height: 100%;
-			background: #60a3bc !important;
+			height: 100vh;
+			width: 100vw;
+			background-image: url("https://images.pexels.com/photos/1370296/pexels-photo-1370296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
 		}
 		.user_card {
 			height: 400px;
@@ -42,7 +45,7 @@
 			width: 170px;
 			top: -75px;
 			border-radius: 50%;
-			background: #60a3bc;
+			/* background: #60a3bc; */
 			padding: 10px;
 			text-align: center;
 		}
@@ -57,7 +60,7 @@
 		}
 		.login_btn {
 			width: 100%;
-			background: #c0392b !important;
+			background: #eb4217 !important;
 			color: white !important;
 		}
 		.login_btn:focus {
@@ -68,7 +71,7 @@
 			padding: 0 2rem;
 		}
 		.input-group-text {
-			background: #c0392b !important;
+			background: #eb4217 !important;
 			color: white !important;
 			border: 0 !important;
 			border-radius: 0.25rem 0 0 0.25rem !important;
@@ -85,6 +88,7 @@
 
 </head>
 <body>
+	<div id ="msg"></div>
 	<div class="container h-100">
 		<div class="d-flex justify-content-center h-100">
 			<div class="user_card">
@@ -99,17 +103,19 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input type="text" name="" class="form-control input_user" value="" placeholder="username/email/phone">
+							<input type="text" name="name" id="name" class="form-control input_user" value="" placeholder="Email/Phone">
 						</div>
+						<div id="namecheck"></div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-key"></i></span>
 							</div>
-							<input type="password" name="" class="form-control input_pass" value="" placeholder="password">
+							<input type="password" name="password" id="password" class="form-control input_pass" value="" placeholder="password">
 						</div>
+						<div id="passcheck"></div>
 						
 							<div class="d-flex justify-content-center mt-3 login_container">
-				 	<button type="button" name="button" class="btn login_btn">Login</button>
+				 	<button type="button" name="button" id="login" class="btn login_btn">Login</button>
 				   </div>
 					</form>
 				</div>
@@ -127,3 +133,95 @@
 	</div>
 </body>
 </html>
+
+<script>
+
+
+$(document).ready(function(){
+
+	$("#namecheck").hide();
+	$("#passcheck").hide();
+
+	var name_err = true;
+	var p_err = true;
+
+	$("#name").keyup(function(){
+		name_validate();
+	});
+
+	function name_validate(){
+		var name= $("#name").val();
+		if(name.length ==""){
+	$('#namecheck').show();
+    $('#namecheck').html('**Please enter Email or Phone');
+    $('#namecheck').focus();
+    $('#namecheck').css("color","red");
+    name_err = false;
+    return false;
+   }
+   else{
+    $('#namecheck').hide();
+   }
+		}
+
+   $("#password").keyup(function(){
+     password_validate();
+   });		
+
+   function password_validate(){
+	var pass = $("#password").val();
+	if(pass.length ==""){
+	$('#passcheck').show();
+    $('#passcheck').html('**Please enter password');
+    $('#passcheck').focus();
+    $('#passcheck').css("color","red");
+    p_err = false;
+    return false;
+   }
+   else{
+    $('#passcheck').hide();
+   }
+   }
+	
+
+$("#login").click(function(){
+
+	var username= $("#name").val();
+	var password = $("#password").val();
+    var login = $("#login").val();
+
+	name_err = true;
+	p_err = true;
+
+	name_validate();
+	password_validate();
+
+	if(name_err == true && p_err == true){
+
+$.ajax({
+type:"POST",
+url:"loginbackend.php",
+data:{
+	username:username,
+	password:password,
+    login:login  
+},
+success:function(data)
+{
+	$("#msg").html(data);
+}
+});
+	}
+
+
+
+})
+});
+
+</script>
+
+
+
+
+
+
